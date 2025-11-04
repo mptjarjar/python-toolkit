@@ -17,15 +17,29 @@ def calculate(memory, operation, number):
         print("⚠️ Unknown operation")
         return memory
 
+def load_memory(filename="memory.txt"):
+    """Load last memory value from file, or start from 0 if not found."""
+    try:
+        with open(filename, "r") as f:
+            return float(f.read().strip())
+    except FileNotFoundError:
+        return 0.0
+
+def save_memory(memory, filename="memory.txt"):
+    """Save current memory value to file."""
+    with open(filename, "w") as f:
+        f.write(str(memory))
+
 if __name__ == "__main__":
-    memory = 0.0
+    memory = load_memory()
     print(f"Current memory: {memory}")
     
     while True:
         user_input = input("Enter operation (+, -, *, /) and number, or 'exit' to quit: ").strip()
         
         if user_input.lower() == 'exit':
-            print(f"Goodbye! Final memory: {memory}")
+            save_memory(memory)
+            print(f"💾 Memory saved! Final memory: {memory}")
             break
         
         try:
