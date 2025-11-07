@@ -1,5 +1,12 @@
+# file_organizer.py
 import os
 import shutil
+from datetime import datetime
+
+def log_action(message, logfile="organizer_log.txt"):
+    """Append a message to the log file with timestamp."""
+    with open(logfile, "a") as log:
+        log.write(f"[{datetime.now()}] {message}\n")
 
 def organize_files(source_folder):
     """Organize files in the source folder by type."""
@@ -12,16 +19,12 @@ def organize_files(source_folder):
         "Python": [".py"],
     }
 
-    # Create folders if they don't exist
     for folder in file_types.keys():
-        folder_path = os.path.join(source_folder, folder)
-        os.makedirs(folder_path, exist_ok=True)
+        os.makedirs(os.path.join(source_folder, folder), exist_ok=True)
 
-    # Go through files and move them
     for filename in os.listdir(source_folder):
         filepath = os.path.join(source_folder, filename)
 
-        # Skip folders and the script itself
         if os.path.isdir(filepath) or filename == os.path.basename(__file__):
             continue
 
@@ -32,11 +35,13 @@ def organize_files(source_folder):
             if ext.lower() in extensions:
                 shutil.move(filepath, os.path.join(source_folder, folder, filename))
                 print(f"📁 Moved: {filename} → {folder}/")
+                log_action(f"Moved: {filename} → {folder}/")
                 moved = True
                 break
 
         if not moved:
             print(f"⚠️ Skipped: {filename} (unknown type)")
+            log_action(f"Skipped: {filename} (unknown type)")
 
 if __name__ == "__main__":
     target = input("Enter the folder path to organize (press Enter for current folder): ").strip()
@@ -44,5 +49,7 @@ if __name__ == "__main__":
         target = os.getcwd()
     
     print(f"Organizing files in: {target}")
+    log_action(f"Started organizing folder: {target}")
     organize_files(target)
+    log_action("✅ Organization complete\n")
     print("✅ Organization complete!")
