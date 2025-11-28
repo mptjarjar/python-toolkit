@@ -1,0 +1,4 @@
+[2025-11-14 15:34:18.377588] Moved: organizer_log.txt → Documents/
+[2025-11-14 15:34:18.378706] Moved: IMG_8B196ADE8F20-1.jpeg → Images/
+[2025-11-14 15:34:18.379141] ✅ Organization complete
+

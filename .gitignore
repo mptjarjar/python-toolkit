@@ -1,2 +1,6 @@
 cleaned_output.txt
 memory.txt
+__pycache__/
+*.pyc
+logs/example.csv
+.DS_Store
